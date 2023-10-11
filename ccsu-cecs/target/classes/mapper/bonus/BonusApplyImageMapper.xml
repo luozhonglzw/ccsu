@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ccsu.cecs.bonus.mapper.BonusApplyImageMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.ccsu.cecs.bonus.entity.BonusApplyImage" id="bonusApplyImageMap">
+        <result property="id" column="id"/>
+        <result property="bonusApplyId" column="bonus_apply_id"/>
+        <result property="oosImagesId" column="oos_images_id"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="queryOosImagesIds" resultType="java.lang.Integer">
+        SELECT oos_images_id FROM bonus_apply_image WHERE bonus_apply_id = #{bonusApplyId}
+    </select>
+
+</mapper>

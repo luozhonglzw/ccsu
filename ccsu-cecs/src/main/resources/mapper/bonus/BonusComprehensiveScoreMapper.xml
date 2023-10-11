@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ccsu.cecs.bonus.mapper.BonusComprehensiveScoreMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.ccsu.cecs.bonus.entity.BonusComprehensiveScore" id="bonusComprehensiveScoreMap">
+        <result property="id" column="id"/>
+        <result property="yearId" column="year_id"/>
+        <result property="collegeId" column="college_id"/>
+        <result property="gradeId" column="grade_id"/>
+        <result property="professionId" column="profession_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="stuStudentId" column="stu_student_id"/>
+        <result property="score" column="score"/>
+        <result property="baseScore" column="base_score"/>
+        <result property="comprehensiveScore" column="comprehensive_score"/>
+        <result property="disciplineScore" column="discipline_score"/>
+        <result property="practicalInnovationScore" column="practical_innovation_score"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+</mapper>

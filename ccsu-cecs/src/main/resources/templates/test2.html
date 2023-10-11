@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<button id="getInput" type="button">获取图片流</button>
+
+<img src="" alt="">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(function () {
+        $("#getInput").click(function () {
+            $.ajax({
+                url: 'http://localhost/test_background',
+                method: 'get',
+                responseType: 'blob',
+                success: function(response){
+                    let blob = new Blob([response.data],{type: "image/png"});
+                    let url = window.URL.createObjectURL(blob);
+                    $("img").attr("src", url);
+                }
+            })
+        });
+    })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/student/bonus/bonus-bonus/add-file" method="post">
+    学年id <input type="text" name="yearId" id="yearId" value="1">
+    类别id <input type="text" name="categoryId" id="categoryId" value="1">
+    学生id <input type="text" name="stuStudentId" id="stuStudentId" value="1">
+    加分项名称 <input type="text" name="bonusName" id="bonusName" value="1">
+    需要加分的成绩 <input type="text" name="score" id="score" value="2">
+    备注 <input type="text" name="remark" id="remark" value="四级证书">
+    图片 <input type="file" name="file">
+
+    <hr>
+    <input type="button" id="submitFile" value="提交">
+</form>
+
+<input type="button" id="realSubmit" value="真正提交">
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+    $(function () {
+        $("#realSubmit").click(function () {
+            let yearId = $("#yearId").val();
+            let categoryId = $("#categoryId").val();
+            let stuStudentId = $("#stuStudentId").val();
+            let bonusName = $("#bonusName").val();
+            let score = $("#score").val();
+            let remark = $("#remark").val();
+            $.ajax({
+                url: "/student/bonus/bonus-bonus/submit-apply",
+                method: 'post',
+                data: JSON.stringify({
+                    yearId,
+                    categoryId,
+                    stuStudentId,
+                    bonusName,
+                    score,
+                    remark
+                }),
+                contentType: "application/json",
+                dataType: 'json',
+                success: function (re) {
+                    console.log(JSON.stringify(re));
+                }
+            });
+        });
+
+        /** 文件提交 */
+        var formData = null;
+        $("[name=file]").change(function (event) {
+            var file = event.target.files[0];
+            var url = window.url || window.webkitURL;
+            url.createObjectURL(file);
+            // 将上传的文件封装到FormData对象中
+            formData = new FormData();
+            formData.append("file", file);
+        });
+
+        $("#submitFile").click(function () {
+
+            $.ajax({
+                url: "/student/bonus/bonus-apply/submit-apply",
+                header: {
+                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdHVOdW1iZXIiOiJCMjAxOTAzMDQzMzUiLCJpZCI6IjEiLCJzdHVOYW1lIjoieWpyIiwiZXhwIjoxNjQ3NzYzNzQyfQ.SJ56TCccb0KYzK-E6ZIKPb2n0iOuctiJn1C3Q-FqlhE"
+                },
+                method: 'post',
+                "contentType": false,
+                "processData": false,
+                "dataType": "json",
+                data: formData,
+                success: function (re) {
+                    console.log(JSON.stringify(re));
+                }
+            })
+        })
+
+    })
+
+</script>
+
+</body>
+</html>

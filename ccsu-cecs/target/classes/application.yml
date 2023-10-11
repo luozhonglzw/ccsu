@@ -1,0 +1,13 @@
+server:
+  port: 88
+spring:
+  application:
+    name: ccsu-cecs
+  profiles:
+    active: prod
+
+
+# 是否开启redis  false  ->  不启用redis
+ccsu-cecs:
+  redis:
+    open: false

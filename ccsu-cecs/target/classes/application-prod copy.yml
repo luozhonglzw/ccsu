@@ -1,0 +1,82 @@
+# 本地开发配置文件
+spring:
+  mvc:
+    format:
+      # 设置Date类型 转换格式
+      date: yyyy-MM-dd
+      time: HH:mm:ss
+      date-time: yyyy-MM-dd HH:mm:ss
+    converters:
+      preferred-json-mapper: gson # 把Gson作为默认的json转换器
+  #    throw-exception-if-no-handler-found: true  # 当出现异常时，直接抛出来
+  gson:
+    date-format: yyyy-MM-dd HH:mm:ss # Gson序列化日期对象时使用的格式
+    pretty-printing: true # Gson是否输出适合漂亮打印页面的序列化JSON。
+    serialize-nulls: true # Gson是否序列化空字段。
+  servlet:
+    multipart:
+      # 开启文件上传
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 15728640 # 单个数据的大小 5MB
+      max-request-size: 15728640 # 总数据的大小 15MB
+  transaction:
+    rollback-on-commit-failure: false # 自动回滚
+  datasource:
+    host: ${MYSQL_HOST:localhost} # host
+    port: ${MYSQL_PORT:3306}
+    database: ${MYSQL_DATABASE:ccsu-cecs} # database
+    params: ${MYSQL_PARAMS:useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC} # params
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}?${spring.datasource.params} # url
+    type: com.alibaba.druid.pool.DruidDataSource # 配置druid数据库连接池
+    dynamic:
+      primary: root #设置默认的数据源或者数据源组,默认值即为master
+      strict: true #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      datasource:
+        root:
+          url: ${spring.datasource.url}
+          username: root
+          password: root
+
+  # 连接
+  redis:
+    host: 172.16.11.86
+    port: 6379
+    password: ccsu_cecs0917
+    timeout: 60000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 100  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接JWT
+
+#  web:
+#    resources:
+#      add-mappings: false  # 不将请求映射给resources路径下
+
+mybatis-plus:
+  #  configuration:
+  # 本地开发输出sql，方便调试
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 配置映射文件
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: cn.ccsu.cecs.bonus.entity,cn.ccsu.cecs.oos.entity,cn.ccsu.cecs.student.entity
+
+# 自定义线程池配置
+ccsu-cecs:
+  thread:
+    core-size: 10
+    max-size: 100
+    keep-alive-time: 10
+
+# 文件服务器的地址
+file-server:
+  ip: 172.16.11.11
+  port: 2000
+
+ip-white:
+  ip-list: 172.16.11.5, 172.16.11.11, 172.16.11.22, 172.16.11.86
+
+dead-line-submit-time:
+  time: 2024-9-21 22:30:00

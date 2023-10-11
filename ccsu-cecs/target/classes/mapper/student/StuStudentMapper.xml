@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ccsu.cecs.student.mapper.StuStudentMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.ccsu.cecs.student.entity.StuStudent" id="stuStudentMap">
+        <result property="id" column="id"/>
+        <result property="collegeId" column="college_id"/>
+        <result property="gradeId" column="grade_id"/>
+        <result property="professionId" column="profession_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="stuNumber" column="stu_number"/>
+        <result property="password" column="password"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <resultMap type="cn.ccsu.cecs.common.entity.StudentCoreInfo" id="studentCoreInfoMap">
+        <result property="collegeId" column="college_id"/>
+        <result property="gradeId" column="grade_id"/>
+        <result property="professionId" column="profession_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="className" column="cl_name"/>
+        <result property="gradeName" column="gd_name"/>
+        <result property="collegeName" column="name"/>
+        <result property="professionName" column="pf_name"/>
+    </resultMap>
+
+    <select id="getStudentCoreInfo" resultMap="studentCoreInfoMap">
+        SELECT
+            class.id class_id,
+            class.cl_name,
+            grade.id grade_id,
+            grade.gd_name,
+            college.id college_id,
+            college.name,
+            profession.id profession_id,
+            profession.pf_name
+        FROM
+            (
+                SELECT college_id, grade_id, profession_id, class_id FROM stu_student
+                WHERE id = #{stu_student_id}
+            ) AS info
+        LEFT JOIN stu_college college ON info.college_id = college.id
+        LEFT JOIN stu_class class ON info.class_id = class.id
+        LEFT JOIN stu_grade grade ON info.grade_id = grade.id
+        LEFT JOIN stu_profession profession ON info.profession_id = profession.id
+    </select>
+
+    <select id="getAllStudentIds" resultType="java.lang.Integer">
+        SELECT id FROM stu_student
+    </select>
+
+    <resultMap type="cn.ccsu.cecs.bonus.vo.StuScoreDetailsVo" id="stuScoreDetailsVoMap">
+        <result property="bonusApplyId" column="bonus_apply_id"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="stuNumber" column="stu_number"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="bonusScore" column="score"/>
+        <result property="bonusName" column="name"/>
+        <result property="remark" column="remark"/>
+        <result property="submitTime" column="created_at"/>
+        <result property="approvalComments" column="approval_comments"/>
+        <result property="approvalTime" column="approval_at"/>
+    </resultMap>
+    <select id="getStuScoreDetails" resultMap="stuScoreDetailsVoMap">
+        SELECT
+            bonus_apply.`id` bonus_apply_id,
+            stu.stu_name,
+            stu.stu_number,
+            bonus_apply.`category_id`,
+            bonus_apply.`score`,
+            bonus.name,
+            bonus_apply.`remark`,
+            bonus_apply.`created_at`,
+            bonus_apply.`approval_at`,
+            bonus_apply.`approval_comments`
+        FROM
+            bonus_apply, stu_student stu
+        LEFT JOIN
+            bonus_bonus bonus
+        ON
+            bonus.id = bonus_apply.`bonus_id`
+        WHERE
+            bonus_apply.`year_id` = #{yearId}
+            AND bonus_apply.`stu_student_id` = #{userId}
+            AND bonus_apply.`approval` = 1
+            AND bonus_apply.`deleted` = 0
+    </select>
+
+
+    <select id="getStuScoreDetailsByCategoryId" resultMap="stuScoreDetailsVoMap">
+        SELECT
+            bonus_apply.`id` bonus_apply_id,
+            stu.stu_name,
+            stu.stu_number,
+            bonus_apply.`category_id`,
+            bonus_apply.`score`,
+            bonus.name,
+            bonus_apply.`remark`,
+            bonus_apply.`created_at`,
+            bonus_apply.`approval_at`,
+            bonus_apply.`approval_comments`
+        FROM
+            bonus_apply
+        LEFT JOIN
+            stu_student stu
+        ON
+            stu.id = #{userId}
+        LEFT JOIN
+            bonus_bonus bonus
+        ON
+            bonus.id = bonus_apply.`bonus_id`
+        WHERE
+            bonus_apply.`year_id` = #{yearId}
+            AND bonus_apply.`stu_student_id` = #{userId}
+            AND bonus_apply.`category_id` = #{categoryId}
+            AND bonus_apply.`approval` = 1
+            AND bonus_apply.`deleted` = 0
+        LIMIT #{page}, #{limit}
+    </select>
+
+
+    <select id="getStuScoreDetailsCount" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM
+            bonus_apply
+        LEFT JOIN
+            stu_student stu
+        ON
+            stu.id = #{userId}
+        LEFT JOIN
+            bonus_bonus bonus
+        ON
+            bonus.id = bonus_apply.`bonus_id`
+        WHERE
+            bonus_apply.`year_id` = #{yearId}
+            AND bonus_apply.`stu_student_id` = #{userId}
+            AND bonus_apply.category_id = #{categoryId}
+            AND bonus_apply.`approval` = 1
+            AND bonus_apply.`deleted` = 0
+    </select>
+</mapper>

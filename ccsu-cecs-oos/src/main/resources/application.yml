@@ -1,0 +1,14 @@
+server:
+  port: 2000
+
+spring:
+  datasource:
+    host: ${MYSQL_HOST:127.0.0.1} # host
+    port: ${MYSQL_PORT:3306}
+    database: ${MYSQL_DATABASE:ccsu_cecs} # database
+    params: ${MYSQL_PARAMS:useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC} # params
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.database}?${spring.datasource.params} # url
+    type: com.alibaba.druid.pool.DruidDataSource # 配置druid数据库连接池
+    #同 ccsu-cecs
+    username: root
+    password: 123456

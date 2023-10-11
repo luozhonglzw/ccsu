@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ccsu.cecs.bonus.mapper.BonusApplyMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.ccsu.cecs.bonus.entity.BonusApply" id="bonusApplyMap">
+        <result property="id" column="id"/>
+        <result property="yearId" column="year_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="bonusId" column="bonus_id"/>
+        <result property="stuStudentId" column="stu_student_id"/>
+        <result property="score" column="score"/>
+        <result property="remark" column="remark"/>
+        <result property="approval" column="approval"/>
+        <result property="approvalBy" column="approval_by"/>
+        <result property="approvalAt" column="approval_at"/>
+        <result property="approvalComments" column="approval_comments"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="updatedAt" column="updated_at"/>
+        <result property="updatedBy" column="updated_by"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.ccsu.cecs.bonus.vo.StuBonusVo" id="stuBonusVoMap">
+        <result property="bonusApplyId" column="id"/>
+        <result property="stuNumber" column="stu_number"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="bonusName" column="name"/>
+        <result property="approvalComments" column="approval_comments"/>
+        <result property="approvalTime" column="approval_at"/>
+        <result property="remark" column="remark"/>
+        <result property="approval" column="approval"/>
+        <result property="applyScore" column="apply_score"/>
+        <result property="remark" column="remark"/>
+        <result property="submitTime" column="created_at"/>
+        <result property="categoryId" column="category_id"/>
+    </resultMap>
+
+    <select id="getStuBonusVosByStuId" resultMap="stuBonusVoMap">
+        SELECT
+            bonus_apply.`id`,
+            bonus_apply.`category_id`,
+            stu.stu_number,
+            stu.stu_name,
+            bonus.name,
+            bonus_apply.`approval_comments`,
+            bonus_apply.`approval_at`,
+            bonus_apply.`approval`,
+            bonus_apply.`score` apply_score,  /*申请分数,最终得分根据approval判断*/
+            bonus_apply.`remark`,
+            bonus_apply.`created_at`
+        FROM
+            bonus_apply
+        LEFT JOIN
+            stu_student stu
+        ON
+            stu.`id` = bonus_apply.`stu_student_id`
+        LEFT JOIN
+            bonus_bonus bonus
+        ON
+            bonus.id = bonus_apply.`bonus_id`
+        WHERE
+            bonus_apply.`stu_student_id` = #{stu_student_id}
+            and bonus_apply.deleted = 0;
+    </select>
+
+    <select id="getStuBonusVosByStuAndYearId" resultMap="stuBonusVoMap">
+        SELECT
+            bonus_apply.`id`,
+            bonus_apply.`category_id`,
+            stu.stu_number,
+            stu.stu_name,
+            bonus.name,
+            bonus_apply.`approval_comments`,
+            bonus_apply.`approval_at`,
+            bonus_apply.`approval`,
+            bonus_apply.`score` apply_score,  /*申请分数,最终得分根据approval判断*/
+            bonus_apply.`remark`,
+            bonus_apply.`created_at`
+        FROM
+            bonus_apply
+        LEFT JOIN
+            stu_student stu
+        ON
+            stu.`id` = bonus_apply.`stu_student_id`
+        LEFT JOIN
+            bonus_bonus bonus
+        ON
+            bonus.id = bonus_apply.`bonus_id`
+        WHERE
+            bonus_apply.`stu_student_id` = #{stu_student_id}
+            AND bonus_apply.`year_id` = #{year_id}
+            and bonus_apply.deleted = 0;
+    </select>
+</mapper>

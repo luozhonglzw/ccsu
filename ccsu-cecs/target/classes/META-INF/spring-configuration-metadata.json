@@ -1,0 +1,62 @@
+{
+  "groups": [
+    {
+      "name": "ccsu-cecs.thread",
+      "type": "cn.ccsu.cecs.config.ThreadPoolConfigProperties",
+      "sourceType": "cn.ccsu.cecs.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "dead-line-submit-time",
+      "type": "cn.ccsu.cecs.config.DeadlineProperties",
+      "sourceType": "cn.ccsu.cecs.config.DeadlineProperties"
+    },
+    {
+      "name": "file-server",
+      "type": "cn.ccsu.cecs.config.FileServerProperties",
+      "sourceType": "cn.ccsu.cecs.config.FileServerProperties"
+    },
+    {
+      "name": "ip-white",
+      "type": "cn.ccsu.cecs.config.IpWhiteProperties",
+      "sourceType": "cn.ccsu.cecs.config.IpWhiteProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ccsu-cecs.thread.core-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.ccsu.cecs.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "ccsu-cecs.thread.keep-alive-time",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.ccsu.cecs.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "ccsu-cecs.thread.max-size",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.ccsu.cecs.config.ThreadPoolConfigProperties"
+    },
+    {
+      "name": "dead-line-submit-time.time",
+      "type": "java.lang.String",
+      "sourceType": "cn.ccsu.cecs.config.DeadlineProperties"
+    },
+    {
+      "name": "file-server.ip",
+      "type": "java.lang.String",
+      "sourceType": "cn.ccsu.cecs.config.FileServerProperties"
+    },
+    {
+      "name": "file-server.port",
+      "type": "java.lang.String",
+      "sourceType": "cn.ccsu.cecs.config.FileServerProperties"
+    },
+    {
+      "name": "ip-white.ip-list",
+      "type": "java.lang.String[]",
+      "sourceType": "cn.ccsu.cecs.config.IpWhiteProperties"
+    }
+  ],
+  "hints": []
+}
